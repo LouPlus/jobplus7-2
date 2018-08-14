@@ -9,6 +9,8 @@ user = Blueprint('user', __name__, url_prefix='/user')
 @login_required
 def profile():
     form = UserproForm(obj=current_user)
+    #form.resume_urls.data = current_user.resume_urls
+    #form.wrok_year.data = current_user.work_year
     if form.validate_on_submit():
         form.UserupForm(current_user)
         flash('update success', 'success')

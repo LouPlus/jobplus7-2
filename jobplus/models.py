@@ -1,7 +1,7 @@
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from jobplus.config import configs
-from flask_login import UserMixin
+from flask_login import UserMixin,current_user
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
@@ -35,7 +35,16 @@ class User(Base, UserMixin):
     work_years = db.Column(db.SmallInteger) 
     add_jobs = db.relationship('Job', secondary='user_job')
     resume_urls = db.Column(db.String(64))
-
+    detail = db.relationship('Company',uselist=False)
+    is_disable = db.Column(db.Boolean,default=False)
+ 
+    @property
+    def enable_jobs(self):
+        if not self.is_company:
+            raise AttributeError('User has no attribute enable_jobs')
+        return self.jobs.filter(Job.is_disable.is_(False))
+   
+   
     @property
     def password(self):
         return self._password
@@ -69,24 +78,34 @@ class Job(Base):
     location = db.Column(db.String(128))
     education = db.Column(db.String(64))
     work_year = db.Column(db.String(24))
-    is_fulltime = db.Column(db.Boolean, default=True)
+    is_disable = db.Column(db.Boolean,default=False)
     is_open = db.Column(db.Boolean, default=True)
-    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete='CASCADE'))
-    company = db.relationship('Company', uselist=False)
-
+    company_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
+    company = db.relationship('User', uselist=False,backref=db.backref('jobs',lazy='dynamic'))
+    views_count = db.Column(db.Integer,default=0)
+   
+    @property
+    def tag_list(self):
+        return self.tags.split(',')
+    @property
+    def current_user_is_applied(self):
+        d = Dilivery.query.filter_by(job_id=self.id,user_id=current_user.id).first()
+        return (d is not None)
 
 class Company(Base):
     id = db.Column(db.Integer, primary_key=True)
-    logo = db.Column(db.String(64))
-    website = db.Column(db.String(64))
+    logo = db.Column(db.String(256),nullable=False)
+    website = db.Column(db.String(64),nullable=False)
     email = db.Column(db.String(24), nullable=False)
-    location = db.Column(db.String(24))
+    location = db.Column(db.String(24), nullable=False)
     description = db.Column(db.String(24))
     about = db.Column(db.String(1024))
     tags = db.Column(db.String(128))
     stack = db.Column(db.String(128))
     team_introduction = db.Column(db.String(256))
     welfares = db.Column(db.String(256))
+    field = db.Column(db.String(128))
+    finance_stage = db.Column(db.String(128))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
     user = db.relationship('User', uselist=False, backref=db.backref('company', uselist=False))
 
@@ -99,8 +118,15 @@ class Dilivery(Base):
     id = db.Column(db.Integer, primary_key=True)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id', ondelete='SET NULL'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
+    company_id = db.Column(db.Integer)
     status = db.Column(db.SmallInteger, default=STATUS_WAITING)
 
     response = db.Column(db.String(64))
 
+    @property
+    def user(self):
+        return User.query.get(self.user_id)
+    @property
+    def job(self):
+        return Job.query.get(self.job_id)
 
