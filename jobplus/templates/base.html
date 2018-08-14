@@ -1,5 +1,4 @@
 <!DOCTYPE html>
->>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8">
@@ -36,8 +35,6 @@
     <li class="{% if active == 'admin' %}active{% endif %}"><a href="{{ url_for('company.admin_index', company_id=current_user.id) }}">管理<span class="sr-only">(current)</span></a></li>
     {% endif %}
     </ul>
-=======
->>>>>>> d09a9b06128bccf8e4e3a4fa270e907faaac24ed
     <ul class="nav navbar-nav navbar-right">
     {% if not current_user.is_authenticated %}
         <li><a href="{{ url_for('front.register') }}">用户注册</a></li>
