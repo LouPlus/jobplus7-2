@@ -4,12 +4,19 @@ from jobplus.models import db,User,Company
 from flask_migrate import Migrate
 from flask_login import LoginManager
 def register_blueprints(app):
+<<<<<<< HEAD
     from .handlers import front, admin,user,company,job
+=======
+    from .handlers import front, admin,user,company
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
     app.register_blueprint(front)
     app.register_blueprint(admin)
     app.register_blueprint(user) 
     app.register_blueprint(company)
+<<<<<<< HEAD
     app.register_blueprint(job)
+=======
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
 def register_extensions(app):   
     db.init_app(app)
     Migrate(app, db)

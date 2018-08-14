@@ -1,7 +1,11 @@
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from jobplus.config import configs
+<<<<<<< HEAD
 from flask_login import UserMixin,current_user
+=======
+from flask_login import UserMixin
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
@@ -35,6 +39,7 @@ class User(Base, UserMixin):
     work_years = db.Column(db.SmallInteger) 
     add_jobs = db.relationship('Job', secondary='user_job')
     resume_urls = db.Column(db.String(64))
+<<<<<<< HEAD
     detail = db.relationship('Company',uselist=False)
     is_disable = db.Column(db.Boolean,default=False)
  
@@ -45,6 +50,9 @@ class User(Base, UserMixin):
         return self.jobs.filter(Job.is_disable.is_(False))
    
    
+=======
+
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
     @property
     def password(self):
         return self._password
@@ -78,6 +86,7 @@ class Job(Base):
     location = db.Column(db.String(128))
     education = db.Column(db.String(64))
     work_year = db.Column(db.String(24))
+<<<<<<< HEAD
     is_disable = db.Column(db.Boolean,default=False)
     is_open = db.Column(db.Boolean, default=True)
     company_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
@@ -95,6 +104,17 @@ class Job(Base):
 class Company(Base):
     id = db.Column(db.Integer, primary_key=True)
     logo = db.Column(db.String(256),nullable=False)
+=======
+    is_fulltime = db.Column(db.Boolean, default=True)
+    is_open = db.Column(db.Boolean, default=True)
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete='CASCADE'))
+    company = db.relationship('Company', uselist=False)
+
+
+class Company(Base):
+    id = db.Column(db.Integer, primary_key=True)
+    logo = db.Column(db.String(64),nullable=False)
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
     website = db.Column(db.String(64),nullable=False)
     email = db.Column(db.String(24), nullable=False)
     location = db.Column(db.String(24), nullable=False)
@@ -104,8 +124,11 @@ class Company(Base):
     stack = db.Column(db.String(128))
     team_introduction = db.Column(db.String(256))
     welfares = db.Column(db.String(256))
+<<<<<<< HEAD
     field = db.Column(db.String(128))
     finance_stage = db.Column(db.String(128))
+=======
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
     user = db.relationship('User', uselist=False, backref=db.backref('company', uselist=False))
 
@@ -118,15 +141,21 @@ class Dilivery(Base):
     id = db.Column(db.Integer, primary_key=True)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id', ondelete='SET NULL'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
+<<<<<<< HEAD
     company_id = db.Column(db.Integer)
+=======
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
     status = db.Column(db.SmallInteger, default=STATUS_WAITING)
 
     response = db.Column(db.String(64))
 
+<<<<<<< HEAD
     @property
     def user(self):
         return User.query.get(self.user_id)
     @property
     def job(self):
         return Job.query.get(self.job_id)
+=======
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
 

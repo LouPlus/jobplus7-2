@@ -1,11 +1,16 @@
 from flask import Blueprint, render_template,redirect,url_for,flash,request
+<<<<<<< HEAD
 from jobplus.models import User,db,Job
+=======
+from jobplus.models import User,db
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
 from jobplus.forms import LoginForm, RegisterForm
 from flask_login import login_user,logout_user,login_required
 front = Blueprint('front', __name__)
 
 @front.route('/')
 def index():
+<<<<<<< HEAD
     newest_jobs = Job.query.filter(Job.is_disable.is_(False)).order_by(Job.created_at.desc()).limit(9)
     newest_companies = User.query.filter(
             User.role==User.ROLE_Company
@@ -17,12 +22,17 @@ def index():
             newest_jobs=newest_jobs,
             newest_companies=newest_companies,
      )
+=======
+    
+    return render_template('index.html')
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
 
 @front.route('/login',methods=['GET','POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
+<<<<<<< HEAD
         if user.is_disable:
             flash('用户已经被禁用')
             return redirect(url_for('front.login'))
@@ -38,6 +48,12 @@ def login():
         return redirect(url_for(next))
     return render_template('login.html', form=form)
     
+=======
+        login_user(user,form.remember_me.data)
+        return redirect(url_for('.index'))
+    return render_template('login.html', form=form)
+
+>>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
 
 @front.route('/register',methods=['GET','POST'])
 def register():
