@@ -23,6 +23,8 @@ def profile():
         flash('您不是企业用户', 'warning')
         return redirect(url_for('front.index'))
     form = ComproForm(obj=current_user.company)
+    form.name.data = current_user.username
+    form.email.data = current_user.email
     if form.validate_on_submit():
         form.ComupForm(current_user)
         flash('企业信息更新成功', 'success')
