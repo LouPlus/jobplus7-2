@@ -1,4 +1,8 @@
 class BaseConfig(object):
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = 'makesure to set a very secret key'
+    INDEX_PER_PAGE=9
+    ADMIN_PER_PAGE=15
     SECRET_KEY = 'makesure to set a very secret key'
 
 class DevelopmentConfig(BaseConfig):

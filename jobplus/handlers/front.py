@@ -1,11 +1,22 @@
 from flask import Blueprint, render_template,redirect,url_for,flash,request
-from jobplus.models import User,db
+from jobplus.models import User,db,Job
 from jobplus.forms import LoginForm, RegisterForm
 from flask_login import login_user,logout_user,login_required
 front = Blueprint('front', __name__)
 
 @front.route('/')
 def index():
+    newest_jobs = Job.query.filter(Job.is_disable.is_(False)).order_by(Job.created_at.desc()).limit(9)
+    newest_companies = User.query.filter(
+            User.role==User.ROLE_Company
+    ).order_by(User.created_at.desc()).limit(8) 
+
+    return render_template(
+            'index.html',
+            active='index',
+            newest_jobs=newest_jobs,
+            newest_companies=newest_companies,
+     )
     
     return render_template('index.html')
 
@@ -14,11 +25,20 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        login_user(user,form.remember_me.data)
-        return redirect(url_for('.index'))
+        if user.is_disable:
+            flash('用户已经被禁用')
+            return redirect(url_for('front.login'))
+        else:
+            login_user(user,form.remember_me.data)
+            next = 'user.profile'
+            if user.is_admin:
+                next = 'admin.index'
+            elif user.is_company:
+                next = 'company.profile'
+
+        
+        return redirect(url_for(next))
     return render_template('login.html', form=form)
-
-
 @front.route('/register',methods=['GET','POST'])
 def register():
     form = RegisterForm()
@@ -40,10 +60,6 @@ def Comregister():
         flash('注册成功,清登录', 'success')
         return redirect(url_for('.login'))
     return render_template('comregister.html', form=form)
-
-
-
-
 
 @front.route('/logout')
 @login_required

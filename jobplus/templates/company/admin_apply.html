@@ -1,0 +1,42 @@
+{% extends "company/admin_base.html" %}
+
+{% block operation %}
+<a href="{{ url_for('company.admin_apply', company_id=company_id, status='waiting') }}" type="button" class="btn btn-success btn-admin">未处理</a>
+<a href="{{ url_for('company.admin_apply', company_id=company_id, status='accept') }}" type="button" class="btn btn-success btn-admin">面试</a>
+<a href="{{ url_for('company.admin_apply', company_id=company_id, status='reject') }}" type="button" class="btn btn-success btn-admin">不合适</a>
+{% endblock %}
+
+{% block admin %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>职位名称</th>
+      <th>求职者姓名</th>
+      <th>简历</th>
+      <th>投递时间</th>
+      <th>操作</th>
+    </tr>
+    <tbody>
+      {% for dilivery in pagination.items %}
+      <tr>
+        <td>{{ dilivery.id }}</td>
+        <td>{{ dilivery.job.name }}</td>
+        <td>{{ dilivery.user.real_name }}</td>
+        <td><a href="{{ dilivery.user.resume_urls }}" type="button" class="btn btn-default btn-sm" target="_blank">查看</a></td>  
+        <td>{{ dilivery.created_at }}</td>
+        <td>
+          <div class="btn-group" role="group">
+            <a href="{{ url_for('company.admin_apply_accept', company_id=company_id, dilivery_id=dilivery.id) }}" type="button" class="btn btn-default" >    
+               面试            </a>
+            <a href="{{ url_for('company.admin_apply_reject', company_id=company_id, dilivery_id=dilivery.id) }}" type="button" class="btn btn-default">
+               拒绝
+            </a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </thead>
+</table>
+{% endblock %}
