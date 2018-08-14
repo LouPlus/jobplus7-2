@@ -150,6 +150,13 @@ def admin_apply_accept(company_id,dilivery_id):
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 from jobplus.forms import ComproForm
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+from jobplus.models import User,Company
+>>>>>>> d09a9b06128bccf8e4e3a4fa270e907faaac24ed
+>>>>>>> dev
 
 company = Blueprint('company', __name__, url_prefix='/company')
 
@@ -168,4 +175,22 @@ def profile():
         flash('success', 'success')
         return redirect(url_for('front.index'))
     return render_template('comprofile.html', form=form)
+<<<<<<< HEAD
 >>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
+=======
+<<<<<<< HEAD
+=======
+
+@company.route('/')
+def index():
+    company = Company.query.all()
+    return render_template('company/index.html',company=company)
+
+@company.route('/<int:company_id>')
+def detail(company_id):
+    company = Company.query.get_or_404(company_id)
+    return render_template('company/detail.html',company=company)
+
+
+>>>>>>> d09a9b06128bccf8e4e3a4fa270e907faaac24ed
+>>>>>>> dev

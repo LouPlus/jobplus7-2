@@ -113,11 +113,24 @@ class Company(Base):
 
 class Company(Base):
     id = db.Column(db.Integer, primary_key=True)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> dev
     logo = db.Column(db.String(64),nullable=False)
 >>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
     website = db.Column(db.String(64),nullable=False)
     email = db.Column(db.String(24), nullable=False)
     location = db.Column(db.String(24), nullable=False)
+<<<<<<< HEAD
+=======
+=======
+    logo = db.Column(db.String(64))
+    website = db.Column(db.String(64))
+    email = db.Column(db.String(24), nullable=False)
+    location = db.Column(db.String(24))
+>>>>>>> d09a9b06128bccf8e4e3a4fa270e907faaac24ed
+>>>>>>> dev
     description = db.Column(db.String(24))
     about = db.Column(db.String(1024))
     tags = db.Column(db.String(128))
