@@ -151,8 +151,14 @@ from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 from jobplus.forms import ComproForm
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+from jobplus.models import User,Company
+>>>>>>> d09a9b06128bccf8e4e3a4fa270e907faaac24ed
+>>>>>>> dev
+=======
 =======
 from jobplus.models import User,Company
 >>>>>>> d09a9b06128bccf8e4e3a4fa270e907faaac24ed
@@ -176,9 +182,12 @@ def profile():
         return redirect(url_for('front.index'))
     return render_template('comprofile.html', form=form)
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> ead018915caac62e47b76c3778fa36791cdf20a3
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> dev
 =======
 
 @company.route('/')
@@ -193,4 +202,7 @@ def detail(company_id):
 
 
 >>>>>>> d09a9b06128bccf8e4e3a4fa270e907faaac24ed
+<<<<<<< HEAD
+>>>>>>> dev
+=======
 >>>>>>> dev
