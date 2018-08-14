@@ -6,7 +6,6 @@ front = Blueprint('front', __name__)
 
 @front.route('/')
 def index():
-<<<<<<< HEAD
     newest_jobs = Job.query.filter(Job.is_disable.is_(False)).order_by(Job.created_at.desc()).limit(9)
     newest_companies = User.query.filter(
             User.role==User.ROLE_Company
