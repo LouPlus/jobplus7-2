@@ -18,7 +18,7 @@ def index():
             newest_companies=newest_companies,
      )
     
-    return render_template('index.html')
+    
 
 @front.route('/login',methods=['GET','POST'])
 def login():

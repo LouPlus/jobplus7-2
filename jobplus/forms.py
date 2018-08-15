@@ -4,7 +4,7 @@ from wtforms.validators import Length, Email, EqualTo, Required
 from jobplus.models import db, User,Company,Job
 
 class RegisterForm(FlaskForm):
-    username = StringField('用户名',validators=[Required(),Length(4,12)])
+    username = StringField('用户名',validators=[Required(),Length(2,12)])
     email = StringField('邮箱', validators=[Required(), Email()])   
     password = PasswordField('密码', validators=[Required(), Length(6, 24)])
     repeat_password = PasswordField('确认密码', validators=[Required(), EqualTo('password')])
@@ -43,14 +43,18 @@ class UserproForm(FlaskForm):
     real_name = StringField('姓名')
     email = StringField('邮箱',validators=[Required(),Email()])
     password = PasswordField('密码',validators=[Required(),Length(6,24)])
-    phone = StringField('手机号码')
-    work_years = StringField('工作经验')
+    phone = StringField('手机号码',validators=[Required()])
+    work_years = StringField('工作经验',validators=[Required('该项不能为空'),Length(1,2,message='请填写1－2位的数字')]) 
     resume_urls = StringField('简历')
     submit = SubmitField('提交')
     def validate_phone(self,field):
         if field.data[:2] not in ('13','15','18') and len(field.data)!=11:
            raise ValidationError('请输入正确的手机号')
-    
+    def validate_work_years(self,field):
+        if not field.data.isdigit() :
+           raise ValidationError('请输入数字')
+
+  
     def UserupForm(self,user):
         user.real_name = self.real_name.data
         user.email = self.email.data
@@ -171,11 +175,6 @@ class JobForm(FlaskForm):
 
     def update_job(self, job):
         self.populate_obj(job)
-        if job.company:
-           company = job.company
-        company.detail.description = self.description.data
-
-        db.session.add(company)
         db.session.add(job)
         db.session.commit()
         

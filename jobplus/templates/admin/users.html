@@ -42,7 +42,8 @@ Admin - users
               <td>{% if user.phone %}{{ user.phone }}{% else %}{% endif %}</td>
               <td>{% if user.real_name %}{{ user.real_name }}{% else %}{% endif %}</td>
                <td>{% if user.is_company %}{{ user.detail.website }}{% endif %}</td>
-        <td>
+             
+         <td>
           <div class="btn-group" role="group">
             <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" type="button" class="btn btn-default" title="编辑">    
             编辑

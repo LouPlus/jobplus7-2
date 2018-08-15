@@ -64,6 +64,7 @@
 
 
 {% macro render_job(job) %}
+{% if job.is_disable == False %}
 <div class='col-sm-6 col-md-4'>
     <div class="job-box"> 
             <div class="caption">
@@ -73,7 +74,8 @@
             {% for tag in job.tags_list %}
             <span class="label label-default">{{ tag }}</span>
             {% endfor %} 
-        </a>    
+           
+         </a>    
         </div> 
         <hr>
         <div class='media'>
@@ -91,4 +93,5 @@
     </div>
  </div>
 </div>
+{% endif %}
 {% endmacro %}

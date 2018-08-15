@@ -76,6 +76,7 @@ class Job(Base):
     tags = db.Column(db.String(64))
     location = db.Column(db.String(128))
     education = db.Column(db.String(64))
+    description = db.Column(db.String(128))
     work_year = db.Column(db.String(24))
     is_disable = db.Column(db.Boolean,default=False)
     is_open = db.Column(db.Boolean, default=True)
